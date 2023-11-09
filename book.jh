@@ -1,0 +1,23 @@
+entity Book {
+	bookName String
+}
+
+entity Editor {
+	editorName String
+}
+
+entity Author {
+	firstName String
+    lastName String
+}
+
+relationship OneToMany {
+	Book{name} to Editor
+}
+
+relationship OneToOne {
+	Book{name} to Author
+}
+
+dto Book, Editor, Author with mapstruct
+service Book, Editor, Author with serviceImpl
