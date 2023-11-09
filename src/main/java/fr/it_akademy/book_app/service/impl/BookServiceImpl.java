@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,11 +72,15 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll().stream().map(bookMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
+    public Page<BookDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return bookRepository.findAllWithEagerRelationships(pageable).map(bookMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDTO> findOne(Long id) {
         log.debug("Request to get Book : {}", id);
-        return bookRepository.findById(id).map(bookMapper::toDto);
+        return bookRepository.findOneWithEagerRelationships(id).map(bookMapper::toDto);
     }
 
     @Override

@@ -3,6 +3,8 @@ package fr.it_akademy.book_app.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,9 +31,10 @@ public class Author implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @JsonIgnoreProperties(value = { "name", "names" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "name")
-    private Book book;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "authors", "editor" }, allowSetters = true)
+    private Set<Book> books = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -74,22 +77,34 @@ public class Author implements Serializable {
         this.lastName = lastName;
     }
 
-    public Book getBook() {
-        return this.book;
+    public Set<Book> getBooks() {
+        return this.books;
     }
 
-    public void setBook(Book book) {
-        if (this.book != null) {
-            this.book.setName(null);
+    public void setBooks(Set<Book> books) {
+        if (this.books != null) {
+            this.books.forEach(i -> i.removeAuthor(this));
         }
-        if (book != null) {
-            book.setName(this);
+        if (books != null) {
+            books.forEach(i -> i.addAuthor(this));
         }
-        this.book = book;
+        this.books = books;
     }
 
-    public Author book(Book book) {
-        this.setBook(book);
+    public Author books(Set<Book> books) {
+        this.setBooks(books);
+        return this;
+    }
+
+    public Author addBook(Book book) {
+        this.books.add(book);
+        book.getAuthors().add(this);
+        return this;
+    }
+
+    public Author removeBook(Book book) {
+        this.books.remove(book);
+        book.getAuthors().remove(this);
         return this;
     }
 

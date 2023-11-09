@@ -40,13 +40,6 @@ public interface AuthorService {
     List<AuthorDTO> findAll();
 
     /**
-     * Get all the AuthorDTO where Book is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<AuthorDTO> findAllWhereBookIsNull();
-
-    /**
      * Get the "id" author.
      *
      * @param id the id of the entity.

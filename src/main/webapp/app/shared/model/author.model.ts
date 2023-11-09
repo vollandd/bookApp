@@ -4,7 +4,7 @@ export interface IAuthor {
   id?: number;
   firstName?: string | null;
   lastName?: string | null;
-  book?: IBook | null;
+  books?: IBook[] | null;
 }
 
 export class Author implements IAuthor {
@@ -12,6 +12,6 @@ export class Author implements IAuthor {
     public id?: number,
     public firstName?: string | null,
     public lastName?: string | null,
-    public book?: IBook | null,
+    public books?: IBook[] | null,
   ) {}
 }

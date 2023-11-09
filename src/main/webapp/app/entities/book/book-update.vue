@@ -25,15 +25,31 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('bookApp.book.name')" for="book-name"></label>
-            <select class="form-control" id="book-name" data-cy="name" name="name" v-model="book.name">
+            <label v-text="t$('bookApp.book.author')" for="book-author"></label>
+            <select
+              class="form-control"
+              id="book-authors"
+              data-cy="author"
+              multiple
+              name="author"
+              v-if="book.authors !== undefined"
+              v-model="book.authors"
+            >
+              <option v-bind:value="getSelected(book.authors, authorOption)" v-for="authorOption in authors" :key="authorOption.id">
+                {{ authorOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('bookApp.book.editor')" for="book-editor"></label>
+            <select class="form-control" id="book-editor" data-cy="editor" name="editor" v-model="book.editor">
               <option v-bind:value="null"></option>
               <option
-                v-bind:value="book.name && authorOption.id === book.name.id ? book.name : authorOption"
-                v-for="authorOption in authors"
-                :key="authorOption.id"
+                v-bind:value="book.editor && editorOption.id === book.editor.id ? book.editor : editorOption"
+                v-for="editorOption in editors"
+                :key="editorOption.id"
               >
-                {{ authorOption.id }}
+                {{ editorOption.id }}
               </option>
             </select>
           </div>

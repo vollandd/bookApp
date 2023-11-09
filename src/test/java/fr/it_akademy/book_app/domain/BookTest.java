@@ -27,36 +27,32 @@ class BookTest {
     }
 
     @Test
-    void nameTest() throws Exception {
+    void authorTest() throws Exception {
         Book book = getBookRandomSampleGenerator();
         Author authorBack = getAuthorRandomSampleGenerator();
 
-        book.setName(authorBack);
-        assertThat(book.getName()).isEqualTo(authorBack);
+        book.addAuthor(authorBack);
+        assertThat(book.getAuthors()).containsOnly(authorBack);
 
-        book.name(null);
-        assertThat(book.getName()).isNull();
+        book.removeAuthor(authorBack);
+        assertThat(book.getAuthors()).doesNotContain(authorBack);
+
+        book.authors(new HashSet<>(Set.of(authorBack)));
+        assertThat(book.getAuthors()).containsOnly(authorBack);
+
+        book.setAuthors(new HashSet<>());
+        assertThat(book.getAuthors()).doesNotContain(authorBack);
     }
 
     @Test
-    void nameTest() throws Exception {
+    void editorTest() throws Exception {
         Book book = getBookRandomSampleGenerator();
         Editor editorBack = getEditorRandomSampleGenerator();
 
-        book.addName(editorBack);
-        assertThat(book.getNames()).containsOnly(editorBack);
-        assertThat(editorBack.getBook()).isEqualTo(book);
+        book.setEditor(editorBack);
+        assertThat(book.getEditor()).isEqualTo(editorBack);
 
-        book.removeName(editorBack);
-        assertThat(book.getNames()).doesNotContain(editorBack);
-        assertThat(editorBack.getBook()).isNull();
-
-        book.names(new HashSet<>(Set.of(editorBack)));
-        assertThat(book.getNames()).containsOnly(editorBack);
-        assertThat(editorBack.getBook()).isEqualTo(book);
-
-        book.setNames(new HashSet<>());
-        assertThat(book.getNames()).doesNotContain(editorBack);
-        assertThat(editorBack.getBook()).isNull();
+        book.editor(null);
+        assertThat(book.getEditor()).isNull();
     }
 }

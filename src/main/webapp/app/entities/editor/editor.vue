@@ -30,7 +30,6 @@
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
             <th scope="row"><span v-text="t$('bookApp.editor.editorName')"></span></th>
-            <th scope="row"><span v-text="t$('bookApp.editor.book')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -40,11 +39,6 @@
               <router-link :to="{ name: 'EditorView', params: { editorId: editor.id } }">{{ editor.id }}</router-link>
             </td>
             <td>{{ editor.editorName }}</td>
-            <td>
-              <div v-if="editor.book">
-                <router-link :to="{ name: 'BookView', params: { bookId: editor.book.id } }">{{ editor.book.id }}</router-link>
-              </div>
-            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'EditorView', params: { editorId: editor.id } }" custom v-slot="{ navigate }">

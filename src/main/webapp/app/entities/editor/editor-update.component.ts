@@ -7,8 +7,6 @@ import EditorService from './editor.service';
 import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
-import BookService from '@/entities/book/book.service';
-import { type IBook } from '@/shared/model/book.model';
 import { type IEditor, Editor } from '@/shared/model/editor.model';
 
 export default defineComponent({
@@ -19,10 +17,6 @@ export default defineComponent({
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const editor: Ref<IEditor> = ref(new Editor());
-
-    const bookService = inject('bookService', () => new BookService());
-
-    const books: Ref<IBook[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -44,13 +38,7 @@ export default defineComponent({
       retrieveEditor(route.params.editorId);
     }
 
-    const initRelationships = () => {
-      bookService()
-        .retrieve()
-        .then(res => {
-          books.value = res.data;
-        });
-    };
+    const initRelationships = () => {};
 
     initRelationships();
 
@@ -58,7 +46,7 @@ export default defineComponent({
     const validations = useValidation();
     const validationRules = {
       editorName: {},
-      book: {},
+      books: {},
     };
     const v$ = useVuelidate(validationRules, editor as any);
     v$.value.$validate();
@@ -70,7 +58,6 @@ export default defineComponent({
       previousState,
       isSaving,
       currentLanguage,
-      books,
       v$,
       t$,
     };

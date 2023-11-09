@@ -28,20 +28,15 @@ public class Book implements Serializable {
     @Column(name = "book_name")
     private String bookName;
 
-    @JsonIgnoreProperties(value = { "book" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "rel_book__author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Author name;
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    private Set<Author> authors = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "book" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "book" }, allowSetters = true)
-    private Set<Editor> names = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    private Editor editor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -71,47 +66,39 @@ public class Book implements Serializable {
         this.bookName = bookName;
     }
 
-    public Author getName() {
-        return this.name;
+    public Set<Author> getAuthors() {
+        return this.authors;
     }
 
-    public void setName(Author author) {
-        this.name = author;
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
-    public Book name(Author author) {
-        this.setName(author);
+    public Book authors(Set<Author> authors) {
+        this.setAuthors(authors);
         return this;
     }
 
-    public Set<Editor> getNames() {
-        return this.names;
-    }
-
-    public void setNames(Set<Editor> editors) {
-        if (this.names != null) {
-            this.names.forEach(i -> i.setBook(null));
-        }
-        if (editors != null) {
-            editors.forEach(i -> i.setBook(this));
-        }
-        this.names = editors;
-    }
-
-    public Book names(Set<Editor> editors) {
-        this.setNames(editors);
+    public Book addAuthor(Author author) {
+        this.authors.add(author);
         return this;
     }
 
-    public Book addName(Editor editor) {
-        this.names.add(editor);
-        editor.setBook(this);
+    public Book removeAuthor(Author author) {
+        this.authors.remove(author);
         return this;
     }
 
-    public Book removeName(Editor editor) {
-        this.names.remove(editor);
-        editor.setBook(null);
+    public Editor getEditor() {
+        return this.editor;
+    }
+
+    public void setEditor(Editor editor) {
+        this.editor = editor;
+    }
+
+    public Book editor(Editor editor) {
+        this.setEditor(editor);
         return this;
     }
 

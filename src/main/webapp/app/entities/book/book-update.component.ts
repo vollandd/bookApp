@@ -9,6 +9,8 @@ import { useAlertService } from '@/shared/alert/alert.service';
 
 import AuthorService from '@/entities/author/author.service';
 import { type IAuthor } from '@/shared/model/author.model';
+import EditorService from '@/entities/editor/editor.service';
+import { type IEditor } from '@/shared/model/editor.model';
 import { type IBook, Book } from '@/shared/model/book.model';
 
 export default defineComponent({
@@ -23,6 +25,10 @@ export default defineComponent({
     const authorService = inject('authorService', () => new AuthorService());
 
     const authors: Ref<IAuthor[]> = ref([]);
+
+    const editorService = inject('editorService', () => new EditorService());
+
+    const editors: Ref<IEditor[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -50,6 +56,11 @@ export default defineComponent({
         .then(res => {
           authors.value = res.data;
         });
+      editorService()
+        .retrieve()
+        .then(res => {
+          editors.value = res.data;
+        });
     };
 
     initRelationships();
@@ -58,8 +69,8 @@ export default defineComponent({
     const validations = useValidation();
     const validationRules = {
       bookName: {},
-      name: {},
-      names: {},
+      authors: {},
+      editor: {},
     };
     const v$ = useVuelidate(validationRules, book as any);
     v$.value.$validate();
@@ -72,11 +83,14 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       authors,
+      editors,
       v$,
       t$,
     };
   },
-  created(): void {},
+  created(): void {
+    this.book.authors = [];
+  },
   methods: {
     save(): void {
       this.isSaving = true;
@@ -105,6 +119,13 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
+    },
+
+    getSelected(selectedVals, option): any {
+      if (selectedVals) {
+        return selectedVals.find(value => option.id === value.id) ?? option;
+      }
+      return option;
     },
   },
 });

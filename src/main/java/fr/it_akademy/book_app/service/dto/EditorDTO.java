@@ -13,8 +13,6 @@ public class EditorDTO implements Serializable {
 
     private String editorName;
 
-    private BookDTO book;
-
     public Long getId() {
         return id;
     }
@@ -29,14 +27,6 @@ public class EditorDTO implements Serializable {
 
     public void setEditorName(String editorName) {
         this.editorName = editorName;
-    }
-
-    public BookDTO getBook() {
-        return book;
-    }
-
-    public void setBook(BookDTO book) {
-        this.book = book;
     }
 
     @Override
@@ -66,7 +56,6 @@ public class EditorDTO implements Serializable {
         return "EditorDTO{" +
             "id=" + getId() +
             ", editorName='" + getEditorName() + "'" +
-            ", book=" + getBook() +
             "}";
     }
 }

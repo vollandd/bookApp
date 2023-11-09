@@ -13,15 +13,10 @@
   "relationships": [
     {
       "otherEntityName": "author",
-      "relationshipName": "name",
+      "otherEntityRelationshipName": "book",
+      "relationshipName": "author",
       "relationshipSide": "left",
-      "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "editor",
-      "relationshipName": "name",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     }
   ],
   "searchEngine": "no",

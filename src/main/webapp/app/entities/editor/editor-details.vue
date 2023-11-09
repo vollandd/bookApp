@@ -12,14 +12,6 @@
           <dd>
             <span>{{ editor.editorName }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('bookApp.editor.book')"></span>
-          </dt>
-          <dd>
-            <div v-if="editor.book">
-              <router-link :to="{ name: 'BookView', params: { bookId: editor.book.id } }">{{ editor.book.id }}</router-link>
-            </div>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>
