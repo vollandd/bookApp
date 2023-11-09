@@ -24,19 +24,6 @@
               v-model="v$.editorName.$model"
             />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('bookApp.editor.book')" for="editor-book"></label>
-            <select class="form-control" id="editor-book" data-cy="book" name="book" v-model="editor.book">
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="editor.book && bookOption.id === editor.book.id ? editor.book : bookOption"
-                v-for="bookOption in books"
-                :key="bookOption.id"
-              >
-                {{ bookOption.id }}
-              </option>
-            </select>
-          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

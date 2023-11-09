@@ -10,7 +10,14 @@
     }
   ],
   "name": "Editor",
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "book",
+      "relationshipName": "books",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceImpl"
 }

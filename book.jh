@@ -12,11 +12,11 @@ entity Author {
 }
 
 relationship OneToMany {
-	Book{name} to Editor
+	Editor{books} to Book
 }
 
-relationship OneToOne {
-	Book{name} to Author
+relationship ManyToMany {
+	Book to Author
 }
 
 dto Book, Editor, Author with mapstruct

@@ -11,11 +11,20 @@
             <span>{{ book.bookName }}</span>
           </dd>
           <dt>
-            <span v-text="t$('bookApp.book.name')"></span>
+            <span v-text="t$('bookApp.book.author')"></span>
           </dt>
           <dd>
-            <div v-if="book.name">
-              <router-link :to="{ name: 'AuthorView', params: { authorId: book.name.id } }">{{ book.name.id }}</router-link>
+            <span v-for="(author, i) in book.authors" :key="author.id"
+              >{{ i > 0 ? ', ' : '' }}
+              <router-link :to="{ name: 'AuthorView', params: { authorId: author.id } }">{{ author.id }}</router-link>
+            </span>
+          </dd>
+          <dt>
+            <span v-text="t$('bookApp.book.editor')"></span>
+          </dt>
+          <dd>
+            <div v-if="book.editor">
+              <router-link :to="{ name: 'EditorView', params: { editorId: book.editor.id } }">{{ book.editor.id }}</router-link>
             </div>
           </dd>
         </dl>

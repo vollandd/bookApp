@@ -3,6 +3,8 @@ package fr.it_akademy.book_app.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,9 +28,10 @@ public class Editor implements Serializable {
     @Column(name = "editor_name")
     private String editorName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "name", "names" }, allowSetters = true)
-    private Book book;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "editor")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "authors", "editor" }, allowSetters = true)
+    private Set<Book> books = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -58,16 +61,34 @@ public class Editor implements Serializable {
         this.editorName = editorName;
     }
 
-    public Book getBook() {
-        return this.book;
+    public Set<Book> getBooks() {
+        return this.books;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBooks(Set<Book> books) {
+        if (this.books != null) {
+            this.books.forEach(i -> i.setEditor(null));
+        }
+        if (books != null) {
+            books.forEach(i -> i.setEditor(this));
+        }
+        this.books = books;
     }
 
-    public Editor book(Book book) {
-        this.setBook(book);
+    public Editor books(Set<Book> books) {
+        this.setBooks(books);
+        return this;
+    }
+
+    public Editor addBooks(Book book) {
+        this.books.add(book);
+        book.setEditor(this);
+        return this;
+    }
+
+    public Editor removeBooks(Book book) {
+        this.books.remove(book);
+        book.setEditor(null);
         return this;
     }
 

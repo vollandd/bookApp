@@ -8,8 +8,6 @@ import EditorUpdate from './editor-update.vue';
 import EditorService from './editor.service';
 import AlertService from '@/shared/alert/alert.service';
 
-import BookService from '@/entities/book/book.service';
-
 type EditorUpdateComponentType = InstanceType<typeof EditorUpdate>;
 
 let route: Partial<RouteLocation>;
@@ -53,10 +51,6 @@ describe('Component Tests', () => {
         provide: {
           alertService,
           editorService: () => editorServiceStub,
-          bookService: () =>
-            sinon.createStubInstance<BookService>(BookService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
         },
       };
     });

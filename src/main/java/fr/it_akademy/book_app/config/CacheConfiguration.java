@@ -52,6 +52,9 @@ public class CacheConfiguration {
             createCache(cm, fr.it_akademy.book_app.domain.Book.class.getName() + ".names");
             createCache(cm, fr.it_akademy.book_app.domain.Editor.class.getName());
             createCache(cm, fr.it_akademy.book_app.domain.Author.class.getName());
+            createCache(cm, fr.it_akademy.book_app.domain.Book.class.getName() + ".authors");
+            createCache(cm, fr.it_akademy.book_app.domain.Editor.class.getName() + ".books");
+            createCache(cm, fr.it_akademy.book_app.domain.Author.class.getName() + ".books");
             // jhipster-needle-ehcache-add-entry
         };
     }

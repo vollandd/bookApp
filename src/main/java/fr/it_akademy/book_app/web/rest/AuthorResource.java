@@ -133,15 +133,10 @@ public class AuthorResource {
     /**
      * {@code GET  /authors} : get all the authors.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authors in body.
      */
     @GetMapping("")
-    public List<AuthorDTO> getAllAuthors(@RequestParam(required = false) String filter) {
-        if ("book-is-null".equals(filter)) {
-            log.debug("REST request to get all Authors where book is null");
-            return authorService.findAllWhereBookIsNull();
-        }
+    public List<AuthorDTO> getAllAuthors() {
         log.debug("REST request to get all Authors");
         return authorService.findAll();
     }

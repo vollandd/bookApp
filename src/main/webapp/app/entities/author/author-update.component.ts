@@ -47,7 +47,7 @@ export default defineComponent({
     const validationRules = {
       firstName: {},
       lastName: {},
-      book: {},
+      books: {},
     };
     const v$ = useVuelidate(validationRules, author as any);
     v$.value.$validate();

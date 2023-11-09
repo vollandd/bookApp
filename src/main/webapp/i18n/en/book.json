@@ -19,8 +19,8 @@
       },
       "id": "ID",
       "bookName": "Book Name",
-      "name": "Name",
-      "name": "Name"
+      "author": "Author",
+      "editor": "Editor"
     }
   }
 }

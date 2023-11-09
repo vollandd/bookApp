@@ -5,6 +5,8 @@ import static fr.it_akademy.book_app.domain.EditorTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import fr.it_akademy.book_app.web.rest.TestUtil;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class EditorTest {
@@ -24,14 +26,24 @@ class EditorTest {
     }
 
     @Test
-    void bookTest() throws Exception {
+    void booksTest() throws Exception {
         Editor editor = getEditorRandomSampleGenerator();
         Book bookBack = getBookRandomSampleGenerator();
 
-        editor.setBook(bookBack);
-        assertThat(editor.getBook()).isEqualTo(bookBack);
+        editor.addBooks(bookBack);
+        assertThat(editor.getBooks()).containsOnly(bookBack);
+        assertThat(bookBack.getEditor()).isEqualTo(editor);
 
-        editor.book(null);
-        assertThat(editor.getBook()).isNull();
+        editor.removeBooks(bookBack);
+        assertThat(editor.getBooks()).doesNotContain(bookBack);
+        assertThat(bookBack.getEditor()).isNull();
+
+        editor.books(new HashSet<>(Set.of(bookBack)));
+        assertThat(editor.getBooks()).containsOnly(bookBack);
+        assertThat(bookBack.getEditor()).isEqualTo(editor);
+
+        editor.setBooks(new HashSet<>());
+        assertThat(editor.getBooks()).doesNotContain(bookBack);
+        assertThat(bookBack.getEditor()).isNull();
     }
 }

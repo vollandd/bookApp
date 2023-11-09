@@ -5,6 +5,8 @@ import static fr.it_akademy.book_app.domain.BookTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import fr.it_akademy.book_app.web.rest.TestUtil;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class AuthorTest {
@@ -28,12 +30,20 @@ class AuthorTest {
         Author author = getAuthorRandomSampleGenerator();
         Book bookBack = getBookRandomSampleGenerator();
 
-        author.setBook(bookBack);
-        assertThat(author.getBook()).isEqualTo(bookBack);
-        assertThat(bookBack.getName()).isEqualTo(author);
+        author.addBook(bookBack);
+        assertThat(author.getBooks()).containsOnly(bookBack);
+        assertThat(bookBack.getAuthors()).containsOnly(author);
 
-        author.book(null);
-        assertThat(author.getBook()).isNull();
-        assertThat(bookBack.getName()).isNull();
+        author.removeBook(bookBack);
+        assertThat(author.getBooks()).doesNotContain(bookBack);
+        assertThat(bookBack.getAuthors()).doesNotContain(author);
+
+        author.books(new HashSet<>(Set.of(bookBack)));
+        assertThat(author.getBooks()).containsOnly(bookBack);
+        assertThat(bookBack.getAuthors()).containsOnly(author);
+
+        author.setBooks(new HashSet<>());
+        assertThat(author.getBooks()).doesNotContain(bookBack);
+        assertThat(bookBack.getAuthors()).doesNotContain(author);
     }
 }

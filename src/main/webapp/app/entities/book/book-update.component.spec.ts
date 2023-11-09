@@ -9,6 +9,7 @@ import BookService from './book.service';
 import AlertService from '@/shared/alert/alert.service';
 
 import AuthorService from '@/entities/author/author.service';
+import EditorService from '@/entities/editor/editor.service';
 
 type BookUpdateComponentType = InstanceType<typeof BookUpdate>;
 
@@ -55,6 +56,10 @@ describe('Component Tests', () => {
           bookService: () => bookServiceStub,
           authorService: () =>
             sinon.createStubInstance<AuthorService>(AuthorService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+          editorService: () =>
+            sinon.createStubInstance<EditorService>(EditorService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },
