@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20231109111636",
+  "dto": "mapstruct",
+  "entityTableName": "book",
+  "fields": [
+    {
+      "fieldName": "bookName",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Book",
+  "relationships": [
+    {
+      "otherEntityName": "author",
+      "relationshipName": "name",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "editor",
+      "relationshipName": "name",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

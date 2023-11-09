@@ -1,0 +1,25 @@
+{
+  "bookApp": {
+    "editor": {
+      "home": {
+        "title": "Editors",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Editor",
+        "createOrEditLabel": "Create or edit a Editor",
+        "notFound": "No Editors found"
+      },
+      "created": "A new Editor is created with identifier { param }",
+      "updated": "A Editor is updated with identifier { param }",
+      "deleted": "A Editor is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Editor { id }?"
+      },
+      "detail": {
+        "title": "Editor"
+      },
+      "id": "ID",
+      "editorName": "Editor Name",
+      "book": "Book"
+    }
+  }
+}

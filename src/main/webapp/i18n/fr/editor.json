@@ -1,0 +1,25 @@
+{
+  "bookApp": {
+    "editor": {
+      "home": {
+        "title": "Editors",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Editor",
+        "createOrEditLabel": "Créer ou éditer un Editor",
+        "notFound": "Aucun Editor trouvé"
+      },
+      "created": "Un nouveau Editor a été créé avec l'identifiant { param }",
+      "updated": "Le Editor avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Editor avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Editor { id } ?"
+      },
+      "detail": {
+        "title": "Editor"
+      },
+      "id": "ID",
+      "editorName": "Editor Name",
+      "book": "Book"
+    }
+  }
+}
