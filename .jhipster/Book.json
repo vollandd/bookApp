@@ -12,6 +12,13 @@
   "name": "Book",
   "relationships": [
     {
+      "otherEntityName": "type",
+      "otherEntityRelationshipName": "book",
+      "relationshipName": "type",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    },
+    {
       "otherEntityName": "author",
       "otherEntityRelationshipName": "book",
       "relationshipName": "author",

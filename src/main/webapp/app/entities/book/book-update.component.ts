@@ -7,6 +7,8 @@ import BookService from './book.service';
 import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
+import TypeService from '@/entities/type/type.service';
+import { type IType } from '@/shared/model/type.model';
 import AuthorService from '@/entities/author/author.service';
 import { type IAuthor } from '@/shared/model/author.model';
 import EditorService from '@/entities/editor/editor.service';
@@ -21,6 +23,10 @@ export default defineComponent({
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const book: Ref<IBook> = ref(new Book());
+
+    const typeService = inject('typeService', () => new TypeService());
+
+    const types: Ref<IType[]> = ref([]);
 
     const authorService = inject('authorService', () => new AuthorService());
 
@@ -51,6 +57,11 @@ export default defineComponent({
     }
 
     const initRelationships = () => {
+      typeService()
+        .retrieve()
+        .then(res => {
+          types.value = res.data;
+        });
       authorService()
         .retrieve()
         .then(res => {
@@ -69,6 +80,7 @@ export default defineComponent({
     const validations = useValidation();
     const validationRules = {
       bookName: {},
+      types: {},
       authors: {},
       editor: {},
     };
@@ -82,6 +94,7 @@ export default defineComponent({
       previousState,
       isSaving,
       currentLanguage,
+      types,
       authors,
       editors,
       v$,
@@ -89,6 +102,7 @@ export default defineComponent({
     };
   },
   created(): void {
+    this.book.types = [];
     this.book.authors = [];
   },
   methods: {

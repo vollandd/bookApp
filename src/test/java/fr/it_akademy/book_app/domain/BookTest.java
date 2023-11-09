@@ -3,6 +3,7 @@ package fr.it_akademy.book_app.domain;
 import static fr.it_akademy.book_app.domain.AuthorTestSamples.*;
 import static fr.it_akademy.book_app.domain.BookTestSamples.*;
 import static fr.it_akademy.book_app.domain.EditorTestSamples.*;
+import static fr.it_akademy.book_app.domain.TypeTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import fr.it_akademy.book_app.web.rest.TestUtil;
@@ -24,6 +25,24 @@ class BookTest {
 
         book2 = getBookSample2();
         assertThat(book1).isNotEqualTo(book2);
+    }
+
+    @Test
+    void typeTest() throws Exception {
+        Book book = getBookRandomSampleGenerator();
+        Type typeBack = getTypeRandomSampleGenerator();
+
+        book.addType(typeBack);
+        assertThat(book.getTypes()).containsOnly(typeBack);
+
+        book.removeType(typeBack);
+        assertThat(book.getTypes()).doesNotContain(typeBack);
+
+        book.types(new HashSet<>(Set.of(typeBack)));
+        assertThat(book.getTypes()).containsOnly(typeBack);
+
+        book.setTypes(new HashSet<>());
+        assertThat(book.getTypes()).doesNotContain(typeBack);
     }
 
     @Test

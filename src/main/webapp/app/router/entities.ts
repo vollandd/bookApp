@@ -7,6 +7,10 @@ const Book = () => import('@/entities/book/book.vue');
 const BookUpdate = () => import('@/entities/book/book-update.vue');
 const BookDetails = () => import('@/entities/book/book-details.vue');
 
+const Type = () => import('@/entities/type/type.vue');
+const TypeUpdate = () => import('@/entities/type/type-update.vue');
+const TypeDetails = () => import('@/entities/type/type-details.vue');
+
 const Editor = () => import('@/entities/editor/editor.vue');
 const EditorUpdate = () => import('@/entities/editor/editor-update.vue');
 const EditorDetails = () => import('@/entities/editor/editor-details.vue');
@@ -43,6 +47,30 @@ export default {
       path: 'book/:bookId/view',
       name: 'BookView',
       component: BookDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'type',
+      name: 'Type',
+      component: Type,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'type/new',
+      name: 'TypeCreate',
+      component: TypeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'type/:typeId/edit',
+      name: 'TypeEdit',
+      component: TypeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'type/:typeId/view',
+      name: 'TypeView',
+      component: TypeDetails,
       meta: { authorities: [Authority.USER] },
     },
     {

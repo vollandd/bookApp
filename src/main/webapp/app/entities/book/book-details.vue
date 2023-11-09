@@ -11,6 +11,15 @@
             <span>{{ book.bookName }}</span>
           </dd>
           <dt>
+            <span v-text="t$('bookApp.book.type')"></span>
+          </dt>
+          <dd>
+            <span v-for="(type, i) in book.types" :key="type.id"
+              >{{ i > 0 ? ', ' : '' }}
+              <router-link :to="{ name: 'TypeView', params: { typeId: type.id } }">{{ type.id }}</router-link>
+            </span>
+          </dd>
+          <dt>
             <span v-text="t$('bookApp.book.author')"></span>
           </dt>
           <dd>

@@ -21,7 +21,7 @@ public class BookRepositoryWithBagRelationshipsImpl implements BookRepositoryWit
 
     @Override
     public Optional<Book> fetchBagRelationships(Optional<Book> book) {
-        return book.map(this::fetchAuthors);
+        return book.map(this::fetchTypes).map(this::fetchAuthors);
     }
 
     @Override
@@ -31,7 +31,25 @@ public class BookRepositoryWithBagRelationshipsImpl implements BookRepositoryWit
 
     @Override
     public List<Book> fetchBagRelationships(List<Book> books) {
-        return Optional.of(books).map(this::fetchAuthors).orElse(Collections.emptyList());
+        return Optional.of(books).map(this::fetchTypes).map(this::fetchAuthors).orElse(Collections.emptyList());
+    }
+
+    Book fetchTypes(Book result) {
+        return entityManager
+            .createQuery("select book from Book book left join fetch book.types where book.id = :id", Book.class)
+            .setParameter("id", result.getId())
+            .getSingleResult();
+    }
+
+    List<Book> fetchTypes(List<Book> books) {
+        HashMap<Object, Integer> order = new HashMap<>();
+        IntStream.range(0, books.size()).forEach(index -> order.put(books.get(index).getId(), index));
+        List<Book> result = entityManager
+            .createQuery("select book from Book book left join fetch book.types where book in :books", Book.class)
+            .setParameter("books", books)
+            .getResultList();
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        return result;
     }
 
     Book fetchAuthors(Book result) {

@@ -25,6 +25,22 @@
             />
           </div>
           <div class="form-group">
+            <label v-text="t$('bookApp.book.type')" for="book-type"></label>
+            <select
+              class="form-control"
+              id="book-types"
+              data-cy="type"
+              multiple
+              name="type"
+              v-if="book.types !== undefined"
+              v-model="book.types"
+            >
+              <option v-bind:value="getSelected(book.types, typeOption)" v-for="typeOption in types" :key="typeOption.id">
+                {{ typeOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label v-text="t$('bookApp.book.author')" for="book-author"></label>
             <select
               class="form-control"

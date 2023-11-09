@@ -1,6 +1,7 @@
 import { defineComponent, provide } from 'vue';
 
 import BookService from './book/book.service';
+import TypeService from './type/type.service';
 import EditorService from './editor/editor.service';
 import AuthorService from './author/author.service';
 import UserService from '@/entities/user/user.service';
@@ -12,6 +13,7 @@ export default defineComponent({
   setup() {
     provide('userService', () => new UserService());
     provide('bookService', () => new BookService());
+    provide('typeService', () => new TypeService());
     provide('editorService', () => new EditorService());
     provide('authorService', () => new AuthorService());
     // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here

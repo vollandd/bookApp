@@ -11,6 +11,14 @@ entity Author {
     lastName String
 }
 
+entity Type {
+	nameType String
+}
+
+relationship ManyToMany {
+	Book to Type
+}
+
 relationship OneToMany {
 	Editor{books} to Book
 }
@@ -19,5 +27,5 @@ relationship ManyToMany {
 	Book to Author
 }
 
-dto Book, Editor, Author with mapstruct
-service Book, Editor, Author with serviceImpl
+dto Book, Editor, Author, Type with mapstruct
+service Book, Editor, Author, Type with serviceImpl
