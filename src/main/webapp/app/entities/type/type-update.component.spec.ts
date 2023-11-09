@@ -8,6 +8,8 @@ import TypeUpdate from './type-update.vue';
 import TypeService from './type.service';
 import AlertService from '@/shared/alert/alert.service';
 
+import BookService from '@/entities/book/book.service';
+
 type TypeUpdateComponentType = InstanceType<typeof TypeUpdate>;
 
 let route: Partial<RouteLocation>;
@@ -51,6 +53,10 @@ describe('Component Tests', () => {
         provide: {
           alertService,
           typeService: () => typeServiceStub,
+          bookService: () =>
+            sinon.createStubInstance<BookService>(BookService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
         },
       };
     });

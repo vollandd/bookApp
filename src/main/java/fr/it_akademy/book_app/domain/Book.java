@@ -29,16 +29,15 @@ public class Book implements Serializable {
     private String bookName;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "rel_book__type", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
-    private Set<Type> types = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rel_book__author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
     private Set<Author> authors = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    private Set<Type> types = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
@@ -72,29 +71,6 @@ public class Book implements Serializable {
         this.bookName = bookName;
     }
 
-    public Set<Type> getTypes() {
-        return this.types;
-    }
-
-    public void setTypes(Set<Type> types) {
-        this.types = types;
-    }
-
-    public Book types(Set<Type> types) {
-        this.setTypes(types);
-        return this;
-    }
-
-    public Book addType(Type type) {
-        this.types.add(type);
-        return this;
-    }
-
-    public Book removeType(Type type) {
-        this.types.remove(type);
-        return this;
-    }
-
     public Set<Author> getAuthors() {
         return this.authors;
     }
@@ -115,6 +91,37 @@ public class Book implements Serializable {
 
     public Book removeAuthor(Author author) {
         this.authors.remove(author);
+        return this;
+    }
+
+    public Set<Type> getTypes() {
+        return this.types;
+    }
+
+    public void setTypes(Set<Type> types) {
+        if (this.types != null) {
+            this.types.forEach(i -> i.removeBook(this));
+        }
+        if (types != null) {
+            types.forEach(i -> i.addBook(this));
+        }
+        this.types = types;
+    }
+
+    public Book types(Set<Type> types) {
+        this.setTypes(types);
+        return this;
+    }
+
+    public Book addType(Type type) {
+        this.types.add(type);
+        type.getBooks().add(this);
+        return this;
+    }
+
+    public Book removeType(Type type) {
+        this.types.remove(type);
+        type.getBooks().remove(this);
         return this;
     }
 

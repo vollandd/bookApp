@@ -131,10 +131,11 @@ public class TypeResource {
     /**
      * {@code GET  /types} : get all the types.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of types in body.
      */
     @GetMapping("")
-    public List<TypeDTO> getAllTypes() {
+    public List<TypeDTO> getAllTypes(@RequestParam(required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get all Types");
         return typeService.findAll();
     }

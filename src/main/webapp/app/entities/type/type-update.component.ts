@@ -7,6 +7,8 @@ import TypeService from './type.service';
 import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
+import BookService from '@/entities/book/book.service';
+import { type IBook } from '@/shared/model/book.model';
 import { type IType, Type } from '@/shared/model/type.model';
 
 export default defineComponent({
@@ -17,6 +19,10 @@ export default defineComponent({
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const type: Ref<IType> = ref(new Type());
+
+    const bookService = inject('bookService', () => new BookService());
+
+    const books: Ref<IBook[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -38,7 +44,13 @@ export default defineComponent({
       retrieveType(route.params.typeId);
     }
 
-    const initRelationships = () => {};
+    const initRelationships = () => {
+      bookService()
+        .retrieve()
+        .then(res => {
+          books.value = res.data;
+        });
+    };
 
     initRelationships();
 
@@ -58,11 +70,14 @@ export default defineComponent({
       previousState,
       isSaving,
       currentLanguage,
+      books,
       v$,
       t$,
     };
   },
-  created(): void {},
+  created(): void {
+    this.type.books = [];
+  },
   methods: {
     save(): void {
       this.isSaving = true;
@@ -91,6 +106,13 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
+    },
+
+    getSelected(selectedVals, option): any {
+      if (selectedVals) {
+        return selectedVals.find(value => option.id === value.id) ?? option;
+      }
+      return option;
     },
   },
 });

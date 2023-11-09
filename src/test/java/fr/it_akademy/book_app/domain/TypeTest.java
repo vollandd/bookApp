@@ -32,18 +32,14 @@ class TypeTest {
 
         type.addBook(bookBack);
         assertThat(type.getBooks()).containsOnly(bookBack);
-        assertThat(bookBack.getTypes()).containsOnly(type);
 
         type.removeBook(bookBack);
         assertThat(type.getBooks()).doesNotContain(bookBack);
-        assertThat(bookBack.getTypes()).doesNotContain(type);
 
         type.books(new HashSet<>(Set.of(bookBack)));
         assertThat(type.getBooks()).containsOnly(bookBack);
-        assertThat(bookBack.getTypes()).containsOnly(type);
 
         type.setBooks(new HashSet<>());
         assertThat(type.getBooks()).doesNotContain(bookBack);
-        assertThat(bookBack.getTypes()).doesNotContain(type);
     }
 }

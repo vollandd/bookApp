@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,11 +72,15 @@ public class TypeServiceImpl implements TypeService {
         return typeRepository.findAll().stream().map(typeMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
+    public Page<TypeDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return typeRepository.findAllWithEagerRelationships(pageable).map(typeMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<TypeDTO> findOne(Long id) {
         log.debug("Request to get Type : {}", id);
-        return typeRepository.findById(id).map(typeMapper::toDto);
+        return typeRepository.findOneWithEagerRelationships(id).map(typeMapper::toDto);
     }
 
     @Override

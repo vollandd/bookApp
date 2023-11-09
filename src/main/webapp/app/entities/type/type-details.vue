@@ -10,6 +10,15 @@
           <dd>
             <span>{{ type.nameType }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('bookApp.type.book')"></span>
+          </dt>
+          <dd>
+            <span v-for="(book, i) in type.books" :key="book.id"
+              >{{ i > 0 ? ', ' : '' }}
+              <router-link :to="{ name: 'BookView', params: { bookId: book.id } }">{{ book.id }}</router-link>
+            </span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

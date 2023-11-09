@@ -8,7 +8,6 @@ import BookUpdate from './book-update.vue';
 import BookService from './book.service';
 import AlertService from '@/shared/alert/alert.service';
 
-import TypeService from '@/entities/type/type.service';
 import AuthorService from '@/entities/author/author.service';
 import EditorService from '@/entities/editor/editor.service';
 
@@ -55,10 +54,6 @@ describe('Component Tests', () => {
         provide: {
           alertService,
           bookService: () => bookServiceStub,
-          typeService: () =>
-            sinon.createStubInstance<TypeService>(TypeService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
           authorService: () =>
             sinon.createStubInstance<AuthorService>(AuthorService, {
               retrieve: sinon.stub().resolves({}),
