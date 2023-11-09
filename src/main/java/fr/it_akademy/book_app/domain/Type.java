@@ -9,13 +9,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Editor.
+ * A Type.
  */
 @Entity
-@Table(name = "editor")
+@Table(name = "type")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Editor implements Serializable {
+public class Type implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,10 +25,10 @@ public class Editor implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "editor_name")
-    private String editorName;
+    @Column(name = "name_type")
+    private String nameType;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "editor")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "types")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "types", "authors", "editor" }, allowSetters = true)
     private Set<Book> books = new HashSet<>();
@@ -39,7 +39,7 @@ public class Editor implements Serializable {
         return this.id;
     }
 
-    public Editor id(Long id) {
+    public Type id(Long id) {
         this.setId(id);
         return this;
     }
@@ -48,17 +48,17 @@ public class Editor implements Serializable {
         this.id = id;
     }
 
-    public String getEditorName() {
-        return this.editorName;
+    public String getNameType() {
+        return this.nameType;
     }
 
-    public Editor editorName(String editorName) {
-        this.setEditorName(editorName);
+    public Type nameType(String nameType) {
+        this.setNameType(nameType);
         return this;
     }
 
-    public void setEditorName(String editorName) {
-        this.editorName = editorName;
+    public void setNameType(String nameType) {
+        this.nameType = nameType;
     }
 
     public Set<Book> getBooks() {
@@ -67,28 +67,28 @@ public class Editor implements Serializable {
 
     public void setBooks(Set<Book> books) {
         if (this.books != null) {
-            this.books.forEach(i -> i.setEditor(null));
+            this.books.forEach(i -> i.removeType(this));
         }
         if (books != null) {
-            books.forEach(i -> i.setEditor(this));
+            books.forEach(i -> i.addType(this));
         }
         this.books = books;
     }
 
-    public Editor books(Set<Book> books) {
+    public Type books(Set<Book> books) {
         this.setBooks(books);
         return this;
     }
 
-    public Editor addBooks(Book book) {
+    public Type addBook(Book book) {
         this.books.add(book);
-        book.setEditor(this);
+        book.getTypes().add(this);
         return this;
     }
 
-    public Editor removeBooks(Book book) {
+    public Type removeBook(Book book) {
         this.books.remove(book);
-        book.setEditor(null);
+        book.getTypes().remove(this);
         return this;
     }
 
@@ -99,10 +99,10 @@ public class Editor implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Editor)) {
+        if (!(o instanceof Type)) {
             return false;
         }
-        return getId() != null && getId().equals(((Editor) o).getId());
+        return getId() != null && getId().equals(((Type) o).getId());
     }
 
     @Override
@@ -114,9 +114,9 @@ public class Editor implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Editor{" +
+        return "Type{" +
             "id=" + getId() +
-            ", editorName='" + getEditorName() + "'" +
+            ", nameType='" + getNameType() + "'" +
             "}";
     }
 }

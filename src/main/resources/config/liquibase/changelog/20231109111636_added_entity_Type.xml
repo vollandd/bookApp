@@ -7,46 +7,18 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Book.
+        Added the entity Type.
     -->
     <changeSet id="20231109111636-1" author="jhipster">
-        <createTable tableName="book">
+        <createTable tableName="type">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="book_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="editor_id" type="bigint">
+            <column name="name_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-    </changeSet>
-
-    <changeSet id="20231109111636-1-relations" author="jhipster">
-
-        <createTable tableName="rel_book__type">
-            <column name="type_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="book_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="book_id, type_id" tableName="rel_book__type"/>
-
-        <createTable tableName="rel_book__author">
-            <column name="author_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="book_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="book_id, author_id" tableName="rel_book__author"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -61,12 +33,12 @@
     -->
     <changeSet id="20231109111636-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/book.csv"
+                  file="config/liquibase/fake-data/type.csv"
                   separator=";"
-                  tableName="book"
+                  tableName="type"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="book_name" type="string"/>
+            <column name="name_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

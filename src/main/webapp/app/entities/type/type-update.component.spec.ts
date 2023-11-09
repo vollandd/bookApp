@@ -4,15 +4,11 @@ import { shallowMount, type MountingOptions } from '@vue/test-utils';
 import sinon, { type SinonStubbedInstance } from 'sinon';
 import { type RouteLocation } from 'vue-router';
 
-import BookUpdate from './book-update.vue';
-import BookService from './book.service';
+import TypeUpdate from './type-update.vue';
+import TypeService from './type.service';
 import AlertService from '@/shared/alert/alert.service';
 
-import TypeService from '@/entities/type/type.service';
-import AuthorService from '@/entities/author/author.service';
-import EditorService from '@/entities/editor/editor.service';
-
-type BookUpdateComponentType = InstanceType<typeof BookUpdate>;
+type TypeUpdateComponentType = InstanceType<typeof TypeUpdate>;
 
 let route: Partial<RouteLocation>;
 const routerGoMock = vitest.fn();
@@ -22,20 +18,20 @@ vitest.mock('vue-router', () => ({
   useRouter: () => ({ go: routerGoMock }),
 }));
 
-const bookSample = { id: 123 };
+const typeSample = { id: 123 };
 
 describe('Component Tests', () => {
-  let mountOptions: MountingOptions<BookUpdateComponentType>['global'];
+  let mountOptions: MountingOptions<TypeUpdateComponentType>['global'];
   let alertService: AlertService;
 
-  describe('Book Management Update Component', () => {
-    let comp: BookUpdateComponentType;
-    let bookServiceStub: SinonStubbedInstance<BookService>;
+  describe('Type Management Update Component', () => {
+    let comp: TypeUpdateComponentType;
+    let typeServiceStub: SinonStubbedInstance<TypeService>;
 
     beforeEach(() => {
       route = {};
-      bookServiceStub = sinon.createStubInstance<BookService>(BookService);
-      bookServiceStub.retrieve.onFirstCall().resolves(Promise.resolve([]));
+      typeServiceStub = sinon.createStubInstance<TypeService>(TypeService);
+      typeServiceStub.retrieve.onFirstCall().resolves(Promise.resolve([]));
 
       alertService = new AlertService({
         i18n: { t: vitest.fn() } as any,
@@ -54,19 +50,7 @@ describe('Component Tests', () => {
         },
         provide: {
           alertService,
-          bookService: () => bookServiceStub,
-          typeService: () =>
-            sinon.createStubInstance<TypeService>(TypeService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
-          authorService: () =>
-            sinon.createStubInstance<AuthorService>(AuthorService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
-          editorService: () =>
-            sinon.createStubInstance<EditorService>(EditorService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
+          typeService: () => typeServiceStub,
         },
       };
     });
@@ -78,34 +62,34 @@ describe('Component Tests', () => {
     describe('save', () => {
       it('Should call update service on save for existing entity', async () => {
         // GIVEN
-        const wrapper = shallowMount(BookUpdate, { global: mountOptions });
+        const wrapper = shallowMount(TypeUpdate, { global: mountOptions });
         comp = wrapper.vm;
-        comp.book = bookSample;
-        bookServiceStub.update.resolves(bookSample);
+        comp.type = typeSample;
+        typeServiceStub.update.resolves(typeSample);
 
         // WHEN
         comp.save();
         await comp.$nextTick();
 
         // THEN
-        expect(bookServiceStub.update.calledWith(bookSample)).toBeTruthy();
+        expect(typeServiceStub.update.calledWith(typeSample)).toBeTruthy();
         expect(comp.isSaving).toEqual(false);
       });
 
       it('Should call create service on save for new entity', async () => {
         // GIVEN
         const entity = {};
-        bookServiceStub.create.resolves(entity);
-        const wrapper = shallowMount(BookUpdate, { global: mountOptions });
+        typeServiceStub.create.resolves(entity);
+        const wrapper = shallowMount(TypeUpdate, { global: mountOptions });
         comp = wrapper.vm;
-        comp.book = entity;
+        comp.type = entity;
 
         // WHEN
         comp.save();
         await comp.$nextTick();
 
         // THEN
-        expect(bookServiceStub.create.calledWith(entity)).toBeTruthy();
+        expect(typeServiceStub.create.calledWith(entity)).toBeTruthy();
         expect(comp.isSaving).toEqual(false);
       });
     });
@@ -113,28 +97,28 @@ describe('Component Tests', () => {
     describe('Before route enter', () => {
       it('Should retrieve data', async () => {
         // GIVEN
-        bookServiceStub.find.resolves(bookSample);
-        bookServiceStub.retrieve.resolves([bookSample]);
+        typeServiceStub.find.resolves(typeSample);
+        typeServiceStub.retrieve.resolves([typeSample]);
 
         // WHEN
         route = {
           params: {
-            bookId: '' + bookSample.id,
+            typeId: '' + typeSample.id,
           },
         };
-        const wrapper = shallowMount(BookUpdate, { global: mountOptions });
+        const wrapper = shallowMount(TypeUpdate, { global: mountOptions });
         comp = wrapper.vm;
         await comp.$nextTick();
 
         // THEN
-        expect(comp.book).toMatchObject(bookSample);
+        expect(comp.type).toMatchObject(typeSample);
       });
     });
 
     describe('Previous state', () => {
       it('Should go previous state', async () => {
-        bookServiceStub.find.resolves(bookSample);
-        const wrapper = shallowMount(BookUpdate, { global: mountOptions });
+        typeServiceStub.find.resolves(typeSample);
+        const wrapper = shallowMount(TypeUpdate, { global: mountOptions });
         comp = wrapper.vm;
         await comp.$nextTick();
 

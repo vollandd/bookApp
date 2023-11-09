@@ -29,6 +29,12 @@ public class Book implements Serializable {
     private String bookName;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "rel_book__type", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    private Set<Type> types = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rel_book__author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
@@ -64,6 +70,29 @@ public class Book implements Serializable {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
+    }
+
+    public Set<Type> getTypes() {
+        return this.types;
+    }
+
+    public void setTypes(Set<Type> types) {
+        this.types = types;
+    }
+
+    public Book types(Set<Type> types) {
+        this.setTypes(types);
+        return this;
+    }
+
+    public Book addType(Type type) {
+        this.types.add(type);
+        return this;
+    }
+
+    public Book removeType(Type type) {
+        this.types.remove(type);
+        return this;
     }
 
     public Set<Author> getAuthors() {
