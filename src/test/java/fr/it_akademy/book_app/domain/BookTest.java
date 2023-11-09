@@ -28,24 +28,6 @@ class BookTest {
     }
 
     @Test
-    void typeTest() throws Exception {
-        Book book = getBookRandomSampleGenerator();
-        Type typeBack = getTypeRandomSampleGenerator();
-
-        book.addType(typeBack);
-        assertThat(book.getTypes()).containsOnly(typeBack);
-
-        book.removeType(typeBack);
-        assertThat(book.getTypes()).doesNotContain(typeBack);
-
-        book.types(new HashSet<>(Set.of(typeBack)));
-        assertThat(book.getTypes()).containsOnly(typeBack);
-
-        book.setTypes(new HashSet<>());
-        assertThat(book.getTypes()).doesNotContain(typeBack);
-    }
-
-    @Test
     void authorTest() throws Exception {
         Book book = getBookRandomSampleGenerator();
         Author authorBack = getAuthorRandomSampleGenerator();
@@ -61,6 +43,28 @@ class BookTest {
 
         book.setAuthors(new HashSet<>());
         assertThat(book.getAuthors()).doesNotContain(authorBack);
+    }
+
+    @Test
+    void typeTest() throws Exception {
+        Book book = getBookRandomSampleGenerator();
+        Type typeBack = getTypeRandomSampleGenerator();
+
+        book.addType(typeBack);
+        assertThat(book.getTypes()).containsOnly(typeBack);
+        assertThat(typeBack.getBooks()).containsOnly(book);
+
+        book.removeType(typeBack);
+        assertThat(book.getTypes()).doesNotContain(typeBack);
+        assertThat(typeBack.getBooks()).doesNotContain(book);
+
+        book.types(new HashSet<>(Set.of(typeBack)));
+        assertThat(book.getTypes()).containsOnly(typeBack);
+        assertThat(typeBack.getBooks()).containsOnly(book);
+
+        book.setTypes(new HashSet<>());
+        assertThat(book.getTypes()).doesNotContain(typeBack);
+        assertThat(typeBack.getBooks()).doesNotContain(book);
     }
 
     @Test

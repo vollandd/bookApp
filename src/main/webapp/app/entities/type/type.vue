@@ -25,6 +25,7 @@
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
             <th scope="row"><span v-text="t$('bookApp.type.nameType')"></span></th>
+            <th scope="row"><span v-text="t$('bookApp.type.book')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -34,6 +35,12 @@
               <router-link :to="{ name: 'TypeView', params: { typeId: type.id } }">{{ type.id }}</router-link>
             </td>
             <td>{{ type.nameType }}</td>
+            <td>
+              <span v-for="(book, i) in type.books" :key="book.id"
+                >{{ i > 0 ? ', ' : '' }}
+                <router-link class="form-control-static" :to="{ name: 'BookView', params: { bookId: book.id } }">{{ book.id }}</router-link>
+              </span>
+            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'TypeView', params: { typeId: type.id } }" custom v-slot="{ navigate }">

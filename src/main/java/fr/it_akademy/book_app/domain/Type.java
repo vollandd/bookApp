@@ -28,9 +28,10 @@ public class Type implements Serializable {
     @Column(name = "name_type")
     private String nameType;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "types")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "rel_type__book", joinColumns = @JoinColumn(name = "type_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "types", "authors", "editor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "authors", "types", "editor" }, allowSetters = true)
     private Set<Book> books = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -66,12 +67,6 @@ public class Type implements Serializable {
     }
 
     public void setBooks(Set<Book> books) {
-        if (this.books != null) {
-            this.books.forEach(i -> i.removeType(this));
-        }
-        if (books != null) {
-            books.forEach(i -> i.addType(this));
-        }
         this.books = books;
     }
 
@@ -82,13 +77,11 @@ public class Type implements Serializable {
 
     public Type addBook(Book book) {
         this.books.add(book);
-        book.getTypes().add(this);
         return this;
     }
 
     public Type removeBook(Book book) {
         this.books.remove(book);
-        book.getTypes().remove(this);
         return this;
     }
 

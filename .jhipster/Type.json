@@ -15,7 +15,7 @@
       "otherEntityName": "book",
       "otherEntityRelationshipName": "type",
       "relationshipName": "book",
-      "relationshipSide": "right",
+      "relationshipSide": "left",
       "relationshipType": "many-to-many"
     }
   ],

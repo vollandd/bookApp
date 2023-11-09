@@ -25,7 +25,6 @@
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
             <th scope="row"><span v-text="t$('bookApp.book.bookName')"></span></th>
-            <th scope="row"><span v-text="t$('bookApp.book.type')"></span></th>
             <th scope="row"><span v-text="t$('bookApp.book.author')"></span></th>
             <th scope="row"><span v-text="t$('bookApp.book.editor')"></span></th>
             <th scope="row"></th>
@@ -37,12 +36,6 @@
               <router-link :to="{ name: 'BookView', params: { bookId: book.id } }">{{ book.id }}</router-link>
             </td>
             <td>{{ book.bookName }}</td>
-            <td>
-              <span v-for="(type, i) in book.types" :key="type.id"
-                >{{ i > 0 ? ', ' : '' }}
-                <router-link class="form-control-static" :to="{ name: 'TypeView', params: { typeId: type.id } }">{{ type.id }}</router-link>
-              </span>
-            </td>
             <td>
               <span v-for="(author, i) in book.authors" :key="author.id"
                 >{{ i > 0 ? ', ' : '' }}

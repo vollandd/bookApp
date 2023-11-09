@@ -15,8 +15,6 @@ public class BookDTO implements Serializable {
 
     private String bookName;
 
-    private Set<TypeDTO> types = new HashSet<>();
-
     private Set<AuthorDTO> authors = new HashSet<>();
 
     private EditorDTO editor;
@@ -35,14 +33,6 @@ public class BookDTO implements Serializable {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
-    }
-
-    public Set<TypeDTO> getTypes() {
-        return types;
-    }
-
-    public void setTypes(Set<TypeDTO> types) {
-        this.types = types;
     }
 
     public Set<AuthorDTO> getAuthors() {
@@ -88,7 +78,6 @@ public class BookDTO implements Serializable {
         return "BookDTO{" +
             "id=" + getId() +
             ", bookName='" + getBookName() + "'" +
-            ", types=" + getTypes() +
             ", authors=" + getAuthors() +
             ", editor=" + getEditor() +
             "}";

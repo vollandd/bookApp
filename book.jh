@@ -16,7 +16,7 @@ entity Type {
 }
 
 relationship ManyToMany {
-	Book to Type
+	Type to Book
 }
 
 relationship OneToMany {

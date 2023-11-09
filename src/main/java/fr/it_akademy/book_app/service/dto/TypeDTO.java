@@ -1,7 +1,9 @@
 package fr.it_akademy.book_app.service.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link fr.it_akademy.book_app.domain.Type} entity.
@@ -12,6 +14,8 @@ public class TypeDTO implements Serializable {
     private Long id;
 
     private String nameType;
+
+    private Set<BookDTO> books = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -27,6 +31,14 @@ public class TypeDTO implements Serializable {
 
     public void setNameType(String nameType) {
         this.nameType = nameType;
+    }
+
+    public Set<BookDTO> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<BookDTO> books) {
+        this.books = books;
     }
 
     @Override
@@ -56,6 +68,7 @@ public class TypeDTO implements Serializable {
         return "TypeDTO{" +
             "id=" + getId() +
             ", nameType='" + getNameType() + "'" +
+            ", books=" + getBooks() +
             "}";
     }
 }

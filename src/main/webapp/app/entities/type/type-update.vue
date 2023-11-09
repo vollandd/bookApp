@@ -24,6 +24,22 @@
               v-model="v$.nameType.$model"
             />
           </div>
+          <div class="form-group">
+            <label v-text="t$('bookApp.type.book')" for="type-book"></label>
+            <select
+              class="form-control"
+              id="type-books"
+              data-cy="book"
+              multiple
+              name="book"
+              v-if="type.books !== undefined"
+              v-model="type.books"
+            >
+              <option v-bind:value="getSelected(type.books, bookOption)" v-for="bookOption in books" :key="bookOption.id">
+                {{ bookOption.id }}
+              </option>
+            </select>
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

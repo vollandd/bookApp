@@ -30,7 +30,7 @@ public class Editor implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "editor")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "types", "authors", "editor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "authors", "types", "editor" }, allowSetters = true)
     private Set<Book> books = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
