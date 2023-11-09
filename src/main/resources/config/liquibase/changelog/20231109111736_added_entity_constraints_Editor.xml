@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Editor.
+    -->
+    <changeSet id="20231109111736-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableName="editor"
+                                 constraintName="fk_editor__book_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="book"
+                                 />
+    </changeSet>
+</databaseChangeLog>

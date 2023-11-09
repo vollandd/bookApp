@@ -1,0 +1,16 @@
+{
+  "applications": "*",
+  "changelogDate": "20231109111736",
+  "dto": "mapstruct",
+  "entityTableName": "editor",
+  "fields": [
+    {
+      "fieldName": "editorName",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Editor",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
